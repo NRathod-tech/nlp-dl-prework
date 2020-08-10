@@ -5,8 +5,8 @@ from sklearn.cross_validation import train_test_split
 # code starts here
 df = pd.read_csv(path)
 df.head()
-X = df.iloc[:,:9]
-y = df.iloc[:,2]
+X = df.drop('list_price',axis=1)
+y = df['list_price']
 X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.3,random_state=6)
 # code ends here
 
@@ -38,8 +38,8 @@ plt.show()
 
 # Code starts here
 corr = X_train.corr() 
-X_train.drop(['play_star_rating', 'val_star_rating'], 1, inplace=True)
-X_test.drop(['play_star_rating', 'val_star_rating'],1, inplace=True)
+X_train.drop(['play_star_rating', 'val_star_rating'],axis = 1, inplace=True)
+X_test.drop(['play_star_rating', 'val_star_rating'],axis = 1, inplace=True)
 # Code ends here
 
 
