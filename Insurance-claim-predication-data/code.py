@@ -3,7 +3,13 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import roc_auc_score
+from sklearn import metrics
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -18,8 +24,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.2,random_st
 
 
 # --------------
-import matplotlib.pyplot as plt
-import seaborn as sns
+
 
 # Code starts here
 fig = plt.figure(figsize=(12, 7))
@@ -42,8 +47,6 @@ sns.pairplot(X_train)
 
 
 # --------------
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 # Code starts here
 cols = list(X_train[['children','sex','region','smoker']])
@@ -59,18 +62,9 @@ for i in range (0,2):
         axes[i,j].set_ylabel('insurenceclaim')
 plt.show()
 
-
-
-
-
 # Code ends here
 
-
 # --------------
-from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
-
 
 # parameters for grid search
 parameters = {'C':[0.1,0.5,1,5]}
@@ -89,22 +83,24 @@ print(accuracy)
 
 # Code ends here
 
-
 # --------------
-from sklearn.metrics import roc_auc_score
-from sklearn import metrics
 
 # Code starts here
 score = roc_auc_score(y_test, y_pred)
 
 y_pred_proba = grid.predict_proba(X_test)[:,1]
 
-fpr, tpr, _ = metrics.roc_curve(y_test,y_pred)
+fpr, tpr, _ = metrics.roc_curve(y_test,y_pred_proba)
 
 roc_auc = roc_auc_score(y_test,y_pred_proba)
 
 plt.plot(fpr,tpr,label='Logistic model,auc='+str(roc_auc))
+plt.legend(loc=4)
 plt.show()
+
+print(round(score,2))
+print(round(y_pred_proba[0],2))
+print(round(roc_auc,2)
 
 # Code ends here
 
